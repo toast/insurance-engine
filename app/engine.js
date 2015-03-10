@@ -1,3 +1,13 @@
+var paths = [];
+
+var getPathForUser = function(userId){
+    return paths[userId];
+}
+
+var setPathForUser = function(userId, path){
+    paths[userId] = '';
+}
+
 var handleCar = function(matchedText, wholeText){
     return "Your car insurance for Reg Number " + matchedText + " will add £80 per month";
 }
@@ -42,21 +52,71 @@ var matchers = [
     {regex:/(.+)/i, action: handleHelp}
 ]
 
-var getReply = function(text){
-    var matcherCount = matchers.length;
-    for (var i = 0; i < matcherCount; i++)
-    {
-        var matcher = matchers[i];
-        var matches = text.match(matcher.regex);
-        if (matches)
-        {
-            return matcher.action(matches[0], text)
+var nicksResponse = function(chat, path, userId){
+    var bot = '';
+
+    if(path !== '') {
+        if(path === 'gadget'){
+            if(/^y|yes|okay|sure$/i.test(chat)){ bot = "Cool, you bought gadget insurance at: 4.99/month. What next?"; path = '';}
+            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "Oh okay, just let me know what type of insurance you're after when you're ready..."; path = '';}
+            else { bot = "I didn't understand that...did you want gadget insurance? Please say yes or no...";}
         }
+        if(path === 'home'){
+            if(/\d+/i.test(chat)){ bot = "Thanks, looks like you're all set, fetching a quote..."; path = '';}
+            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "Oh okay...sad times!...Just let me know what type of insurance you're after when you're ready..."; path = '';}
+            else { bot = "I didn't understand that...did you want home insurance? Please say yes or no...";}
+        }
+        if(path === 'bike'){
+            if(/^y|yes|okay$/i.test(chat)){ bot = "Cool, you bought bike insurance at: 9.99/month. What next?"; path = '';}
+            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "Cool, you bought gadget insurance at: 4.99/month"; path = ''}
+            else { bot = "I didn't understand that...did you want bike insurance? Please say yes or no...";}
+        }
+        else if(path === 'facebook'){
+            if(/^y|yes|okay$/i.test(chat)){ document.location = 'https://facebook.com'; path = '';}
+            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "No worries, let's do it the traditional way :)"; path = ''}
+            else { bot = "I didn't understand that...did you want to connect to facebook? Please say yes or no...";}
+        }
+//                else {
+//                    bot = "Hmm...I've gotten confused...let's start again...";
+//                    path = '';
+//                }
+    } else {
+        if(/hi|hello|alfred/i.test(chat)){ bot = "Enough with the pleasantries...let's get down to business! What insurance are you after?"; }
+        if(/phone|mobile|gadget|iPad|Android/i.test(chat)){ bot = "Okay, our gadget insurance starts at 4.99/month, want to add it to your bill?"; path = 'gadget'; }
+        if(/bike/i.test(chat)){ bot = "Okay, our bike insurance starts at 9.99/month, want to add it to your bill?"; path = 'bike' }
+        if(/home/i.test(chat)){ bot = "Okay, here's a quick way to get home insurance: http://www.alfredhomeinsurance.com, or tell me the size of your home in square feet."; path='home'; }
+        if(/car|boat|^pi$|^pl$|professional indemnity|professional liability/i.test(chat)){ bot = "I'm afraid we only offer: home, gadget, and bike insurance at the moment."; }
+        if(/\d+/i.test(chat)){ bot += "Fancy numbers! Are you an actuary or something?"; }
+        if(/facebook/i.test(chat)){ bot = "Connect to facebook to fast track past some questions?"; path = 'facebook'}
     }
+
+    if(bot === ""){
+        bot = "Whaa?!? Is that insurance speak?";
+    }
+
+    setPathForUser(userId, path);
+    return bot;
+}
+
+var getReply = function(text, userId){
+    if(!getPathForUser(userId)){
+        setPathForUser(userId, '');
+    }
+    return nicksResponse(text, getPathForUser(userId), userId);
+//    var matcherCount = matchers.length;
+//    for (var i = 0; i < matcherCount; i++)
+//    {
+//        var matcher = matchers[i];
+//        var matches = text.match(matcher.regex);
+//        if (matches)
+//        {
+//            return matcher.action(matches[0], text)
+//        }
+//    }
 }
 
 var process = function (data) {
-    var text = getReply(data.text);
+    var text = getReply(data.text, data.userId);
     return { text: text};
 };
 
