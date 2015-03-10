@@ -69,12 +69,12 @@ var nicksResponse = function(chat, path, userId){
         }
         if(path === 'bike'){
             if(/^y|yes|okay$/i.test(chat)){ bot = "Cool, you bought bike insurance at: 9.99/month. What next?"; path = '';}
-            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "Cool, you bought gadget insurance at: 4.99/month"; path = ''}
+            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "Cool, your premium will remain the same"; path = ''}
             else { bot = "I didn't understand that...did you want bike insurance? Please say yes or no...";}
         }
         if(path === 'pet'){
             if(/^y|yes|okay$/i.test(chat)){ bot = "Cool, you bought pet insurance at: 6.99/month. What next?"; path = '';}
-            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "Cool, your premuim will remain the same"; path = ''}
+            else if(/^no|negative|nope|nah$/i.test(chat)){ bot = "Cool, your premium will remain the same"; path = ''}
             else { bot = "I didn't understand that...did you want pet insurance? Please say yes or no...";}
         }
         else if(path === 'facebook'){
