@@ -88,10 +88,10 @@ var nicksResponse = function(chat, path, userId){
 //                }
     } else {
         if(/hi|hello|alfred/i.test(chat)){ bot = "Enough with the pleasantries...let's get down to business! What insurance are you after?"; }
-        if(/phone|mobile|gadget|iPad|Android|canon|nikon|samsung/i.test(chat)){ bot = "Okay, our gadget insurance starts at 4.99/month, want to add it to your bill?"; path = 'gadget'; }
+        if(/phone|mobile|gadget|iPad|Android/i.test(chat)){ bot = "Okay, our gadget insurance starts at 4.99/month, want to add it to your bill?"; path = 'gadget'; }
         if(/bike|bicycle|marin|boardman|brompton|specialized|dawes|raleigh/i.test(chat)){ bot = "Okay, our bike insurance starts at 9.99/month, want to add it to your bill?"; path = 'bike' }
         if(/(cat|dog|fish|snake|gerbil|rat|reptile)/i.test(chat)){ bot = "Okay, our pet insurance starts at 6.99/month, want to add it to your bill?"; path = 'pet' }
-        if(/home|content|building/i.test(chat)){ bot = "Okay, here's a quick way to get home insurance: http://www.alfredhomeinsurance.com, or tell me the size of your home in square feet."; path='home'; }
+        if(/home/i.test(chat)){ bot = "Okay, here's a quick way to get home insurance: http://www.alfredhomeinsurance.com, or tell me the size of your home in square feet."; path='home'; }
         if(/car|boat|^pi$|^pl$|professional indemnity|professional liability/i.test(chat)){ bot = "I'm afraid we only offer: home, gadget, and bike insurance at the moment."; }
         if(/\d+/i.test(chat)){ bot += "Fancy numbers! Are you an actuary or something?"; }
         if(/facebook/i.test(chat)){ bot = "Connect to facebook to fast track past some questions?"; path = 'facebook'}
