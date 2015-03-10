@@ -1,3 +1,36 @@
+function afterAngular(){
+
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    window.setTimeout(afterAngular, 2000);
+});
+
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+}
+
+var user = {
+    'userID': guid(),
+    'facebook': '',
+    'twitter': ''
+};
+
+if (localStorage.getItem("user") === null) {
+    localStorage.setItem('user', JSON.stringify(user));
+} else {
+    user = localStorage.getItem('user');
+}
+
+console.log('user: ', JSON.parse(user));
+
+
 angular.module('ionicApp', ['ionic'])
 
 // All this does is allow the message
@@ -41,23 +74,43 @@ angular.module('ionicApp', ['ionic'])
 })
 
 
-.controller('Messages', function($scope, $timeout, $ionicScrollDelegate) {
+.controller('Messages', function($scope, $timeout, $ionicScrollDelegate, $http) {
 
     $scope.hideTime = true;
 
     var alternate,
         isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
-    $scope.sendMessage = function() {
-        alternate = !alternate;
+    $scope.botID = '54321';
+    $scope.userID = '12345';
 
+
+    $scope.newLocalDate = function(){
         var d = new Date();
         d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
+        return d;
+    };
+
+    $scope.sendMessage = function() {
+
+        $http({
+            url: "/messages",
+            method: "POST",
+            data: {
+                "text": $scope.data.message
+            }
+        }).success(function(data, status, headers, config) {
+            $scope.data = data;
+        }).error(function(data, status, headers, config) {
+            $scope.status = status;
+        });
+
+        alternate = !alternate;
 
         $scope.messages.push({
-            userId: alternate ? '12345' : '54321',
+            userId: alternate ? $scope.userID : $scope.botID,
             text: $scope.data.message,
-            time: d
+            time: $scope.newLocalDate()
         });
 
         delete $scope.data.message;
