@@ -5,7 +5,8 @@ var getPathForUser = function(userId){
 }
 
 var setPathForUser = function(userId, path){
-    paths[userId] = '';
+    paths[userId] = path;
+    console.log(paths);
 }
 
 var handleCar = function(matchedText, wholeText){
@@ -106,6 +107,7 @@ var nicksResponse = function(chat, path, userId){
 
 var process = function(data){
     var userId = data.userId;
+    console.log(data.userId);
     var text = data.text;
 
     if (!getPathForUser(userId)){

@@ -33,7 +33,7 @@ function guid() {
         s4() + '-' + s4() + s4() + s4();
 }
 
-var user = {
+hack.user = {
     'userID': guid(),
     'facebook': '',
     'twitter': ''
@@ -122,7 +122,7 @@ angular.module('ionicApp', ['ionic'])
             method: "POST",
             data: {
                 "text": $scope.data.message,
-                "userId": user.userID
+                "userId": hack.user.userID
             }
         }).success(function(data, status, headers, config) {
             $scope.data = data;
