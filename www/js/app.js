@@ -1,19 +1,19 @@
 hack = {};
 
-//hack.bindFileUpload = function() {
-//    var fileInput = document.querySelectorAll('.file-input')[0];
-//    fileInput.addEventListener("change", function(e) {
-//        EXIF.getData(e.target.files[0], function() {
-//            var upload = EXIF.getAllTags(this);
-//            if(upload.Make){
-//                alert(upload.Make);
-//            }
-//            if(upload.Model){
-//                alert(upload.Model);
-//            }
-//        });
-//    });
-//};
+hack.bindFileUpload = function() {
+    var fileInput = document.querySelectorAll('.file-input')[0];
+    fileInput.addEventListener("change", function(e) {
+        EXIF.getData(e.target.files[0], function() {
+            var upload = EXIF.getAllTags(this);
+            if(upload.Make){
+                alert(upload.Make);
+            }
+            if(upload.Model){
+                alert(upload.Model);
+            }
+        });
+    });
+};
 
 function guid() {
     function s4() {

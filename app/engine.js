@@ -88,7 +88,7 @@ var nicksResponse = function(chat, path, userId){
 //                }
     } else {
         if(/hi|hello|alfred/i.test(chat)){ bot = "Enough with the pleasantries...let's get down to business! What insurance are you after?"; }
-        if(/phone|mobile|gadget|iPad|Android/i.test(chat)){ bot = "Okay, our gadget insurance starts at 4.99/month, want to add it to your bill?"; path = 'gadget'; }
+        if(/phone|mobile|gadget|iPad|Android/i.test(chat)){ bot = "Okay, our gadget insurance starts at 4.99/month, want to add it to your bill? (Or upload any photo from your device to get a more accurate quote)"; path = 'gadget'; }
         if(/bike/i.test(chat)){ bot = "Okay, our bike insurance starts at 9.99/month, want to add it to your bill?"; path = 'bike' }
         if(/(cat|dog|fish|snake|gerbil|rat|reptile)/i.test(chat)){ bot = "Okay, our pet insurance starts at 6.99/month, want to add it to your bill?"; path = 'pet' }
         if(/home/i.test(chat)){ bot = "Okay, here's a quick way to get home insurance: http://www.alfredhomeinsurance.com, or tell me the size of your home in square feet."; path='home'; }
@@ -102,7 +102,12 @@ var nicksResponse = function(chat, path, userId){
     }
 
     setPathForUser(userId, path);
-    return { text: bot, type: 'message'};
+    var responseFromBot = { text: bot, type: 'message'};
+    if(path === 'gadget'){
+        responseFromBot = { text: bot, type: 'upload'};
+    }
+
+    return responseFromBot;
 }
 
 var process = function(data){
