@@ -13,12 +13,14 @@
 
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+    <!--<script src="cordova.js"></script>-->
 
     <!-- your app's js -->
     <!--<link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">-->
     <!--<script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>-->
 
+    <script data-main="js/main" src="lib/require.js"></script>
+    <script type="text/javascript" src="lib/exif-js/binaryajax.js"></script>
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="js/app.js"></script>
 
@@ -33,6 +35,9 @@
             <div ng-repeat="message in messages" ng-class="{other: message.userId != myId}" class="messages">
                 <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
                     <span>{{ message.text }}</span>
+                    <div ng-show="message.htmlSnippet=='fileUpload'">
+                        <input class="file-input" type="file" onclick="hack.bindFileUpload()"/>
+                    </div>
                 </div>
                 <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">{{message.time}}</div>
             </div>
@@ -47,6 +52,7 @@
             </button>
         </ion-footer-bar>
     </ion-pane>
+    <script type="text/javascript" src="lib/exif-js/exif.js"></script>
 </body>
 
 </html>

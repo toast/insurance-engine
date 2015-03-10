@@ -1,0 +1,44 @@
+{
+  "name": "exif-js",
+  "version": "1.0.7",
+  "description": "A JavaScript library for reading EXIF meta data from JPEG image files.",
+  "main": "exif.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/webthusiast/exif-js"
+  },
+  "homepage": "https://github.com/webthusiast/exif-js",
+  "bugs": {
+    "url": "https://github.com/jseidelin/exif-js/issues"
+  },
+  "keywords": [
+    "exif",
+    "binaryajax",
+    "nihilogic",
+    "browserify",
+    "commonjs"
+  ],
+  "author": {
+    "name": "Jacob Seidelin",
+    "email": "jseidelin@nihilogic.dk",
+    "url": "http://blog.nihilogic.dk/"
+  },
+  "maintainers": [
+    {
+      "name": "Roald de Vries",
+      "email": "roald@webthusiast.nl",
+      "url": "http://webthusiast.nl/"
+    }
+  ],
+  "license": "MIT",
+  "readme": "#Exif.js\n\nA JavaScript library for reading EXIF meta data from JPEG image files.",
+  "readmeFilename": "README.md",
+  "_id": "exif-js@1.0.7",
+  "_from": "exif-js@"
+}

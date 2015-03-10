@@ -1,3 +1,20 @@
+hack = {};
+
+hack.bindFileUpload = function() {
+    var fileInput = document.querySelectorAll('.file-input')[0];
+    fileInput.addEventListener("change", function(e) {
+        EXIF.getData(e.target.files[0], function() {
+            var upload = EXIF.getAllTags(this);
+            if(upload.Make){
+                alert(upload.Make);
+            }
+            if(upload.Model){
+                alert(upload.Model);
+            }
+        });
+    });
+};
+
 function afterAngular(){
 
 }
@@ -74,7 +91,7 @@ angular.module('ionicApp', ['ionic'])
 })
 
 
-.controller('Messages', function($scope, $timeout, $ionicScrollDelegate, $http) {
+.controller('Messages', function($scope, $timeout, $ionicScrollDelegate, $http, $window) {
 
     $scope.hideTime = true;
 
@@ -97,10 +114,12 @@ angular.module('ionicApp', ['ionic'])
             url: "/messages",
             method: "POST",
             data: {
-                "text": $scope.data.message
+                "text": $scope.data.message,
+                "user": user
             }
         }).success(function(data, status, headers, config) {
             $scope.data = data;
+            $window.console.log(data);
         }).error(function(data, status, headers, config) {
             $scope.status = status;
         });
@@ -110,6 +129,7 @@ angular.module('ionicApp', ['ionic'])
         $scope.messages.push({
             userId: alternate ? $scope.userID : $scope.botID,
             text: $scope.data.message,
+            htmlSnippet: '',
             time: $scope.newLocalDate()
         });
 
