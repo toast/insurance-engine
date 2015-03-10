@@ -95,11 +95,14 @@ var nicksResponse = function(chat, path, userId){
     }
 
     setPathForUser(userId, path);
-    return bot;
+    return { text: bot, type: 'message'};
 }
 
-var getReply = function(text, userId){
-    if(!getPathForUser(userId)){
+var process = function(data){
+    var userId = data.userId;
+    var text = data.text;
+
+    if (!getPathForUser(userId)){
         setPathForUser(userId, '');
     }
     return nicksResponse(text, getPathForUser(userId), userId);
@@ -114,11 +117,6 @@ var getReply = function(text, userId){
 //        }
 //    }
 }
-
-var process = function (data) {
-    var text = getReply(data.text, data.userId);
-    return { text: text};
-};
 
 var engine = {
     process: process

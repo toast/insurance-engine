@@ -3,10 +3,10 @@ var expect = chai.expect;
 var engine = require('../../app/engine');
 
 describe('engine', function(){
-    describe('process', function(){
+    describe('ignore', function(){
         it('car insurance', function(){
             var result = engine.process({text: 'car insurance'});
-            expect(result.text).to.equal('Although we do not insure car insurance at the moment - we hope to bring you this cover soon');
+            expect(result.text).to.equal("I'm afraid we only offer: home, gadget, and bike insurance at the moment.");
         });
     });
 });
