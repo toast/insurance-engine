@@ -1,71 +1,91 @@
-// Ionic Starter App
+angular.module('ionicApp', ['ionic'])
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
-
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+// All this does is allow the message
+// to be sent when you tap return
+.directive('input', function($timeout) {
+    return {
+        restrict: 'E',
+        scope: {
+            'returnClose': '=',
+            'onReturn': '&',
+            'onFocus': '&',
+            'onBlur': '&'
+        },
+        link: function(scope, element, attr) {
+            element.bind('focus', function(e) {
+                if (scope.onFocus) {
+                    $timeout(function() {
+                        scope.onFocus();
+                    });
+                }
+            });
+            element.bind('blur', function(e) {
+                if (scope.onBlur) {
+                    $timeout(function() {
+                        scope.onBlur();
+                    });
+                }
+            });
+            element.bind('keydown', function(e) {
+                if (e.which == 13) {
+                    if (scope.returnClose) element[0].blur();
+                    if (scope.onReturn) {
+                        $timeout(function() {
+                            scope.onReturn();
+                        });
+                    }
+                }
+            });
+        }
     }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
 
-  .state('app', {
-    url: "/app",
-    abstract: true,
-    templateUrl: "templates/menu.html",
-    controller: 'AppCtrl'
-  })
+.controller('Messages', function($scope, $timeout, $ionicScrollDelegate) {
 
-  .state('app.search', {
-    url: "/search",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/search.html"
-      }
-    }
-  })
+    $scope.hideTime = true;
 
-  .state('app.browse', {
-    url: "/browse",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/browse.html"
-      }
-    }
-  })
-    .state('app.playlists', {
-      url: "/playlists",
-      views: {
-        'menuContent': {
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
+    var alternate,
+        isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
-  .state('app.single', {
-    url: "/playlists/:playlistId",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/playlist.html",
-        controller: 'PlaylistCtrl'
-      }
-    }
-  });
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+    $scope.sendMessage = function() {
+        alternate = !alternate;
+
+        var d = new Date();
+        d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
+
+        $scope.messages.push({
+            userId: alternate ? '12345' : '54321',
+            text: $scope.data.message,
+            time: d
+        });
+
+        delete $scope.data.message;
+        $ionicScrollDelegate.scrollBottom(true);
+
+    };
+
+
+    $scope.inputUp = function() {
+        if (isIOS) $scope.data.keyboardHeight = 216;
+        $timeout(function() {
+            $ionicScrollDelegate.scrollBottom(true);
+        }, 300);
+
+    };
+
+    $scope.inputDown = function() {
+        if (isIOS) $scope.data.keyboardHeight = 0;
+        $ionicScrollDelegate.resize();
+    };
+
+    $scope.closeKeyboard = function() {
+        // cordova.plugins.Keyboard.close();
+    };
+
+
+    $scope.data = {};
+    $scope.myId = '12345';
+    $scope.messages = [];
+
 });
