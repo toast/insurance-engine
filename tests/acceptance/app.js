@@ -9,6 +9,7 @@ describe('app', function(){
         it('should process', function(done){
             request(app)
                 .post('/messages')
+                .send({text: "insure car", id: ""})
                 .expect(200)
                 .end(done);
         });
