@@ -1,27 +1,19 @@
 hack = {};
 
-hack.bindFileUpload = function() {
-    var fileInput = document.querySelectorAll('.file-input')[0];
-    fileInput.addEventListener("change", function(e) {
-        EXIF.getData(e.target.files[0], function() {
-            var upload = EXIF.getAllTags(this);
-            if(upload.Make){
-                alert(upload.Make);
-            }
-            if(upload.Model){
-                alert(upload.Model);
-            }
-        });
-    });
-};
-
-function afterAngular(){
-
-}
-
-document.addEventListener("DOMContentLoaded", function(event) {
-    window.setTimeout(afterAngular, 2000);
-});
+//hack.bindFileUpload = function() {
+//    var fileInput = document.querySelectorAll('.file-input')[0];
+//    fileInput.addEventListener("change", function(e) {
+//        EXIF.getData(e.target.files[0], function() {
+//            var upload = EXIF.getAllTags(this);
+//            if(upload.Make){
+//                alert(upload.Make);
+//            }
+//            if(upload.Model){
+//                alert(upload.Model);
+//            }
+//        });
+//    });
+//};
 
 function guid() {
     function s4() {
@@ -33,19 +25,24 @@ function guid() {
         s4() + '-' + s4() + s4() + s4();
 }
 
-hack.user = {
-    'userID': guid(),
-    'facebook': '',
-    'twitter': ''
-};
 
-if (localStorage.getItem("user") === null) {
-    localStorage.setItem('user', JSON.stringify(user));
-} else {
-    user = localStorage.getItem('user');
+function afterAngular(){
+    hack.user = {
+        'userID': guid(),
+        'facebook': '',
+        'twitter': ''
+    };
+
+    if (localStorage.getItem("user") === null) {
+        localStorage.setItem('user', JSON.stringify(hack.user));
+    } else {
+        hack.user = localStorage.getItem('user');
+    }
 }
 
-console.log('user: ', JSON.parse(user));
+document.addEventListener("DOMContentLoaded", function(event) {
+    window.setTimeout(afterAngular, 2000);
+});
 
 
 angular.module('ionicApp', ['ionic'])
