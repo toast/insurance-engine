@@ -56,7 +56,6 @@ var getReply = function(text){
 }
 
 var process = function (data) {
-    console.log(data);
     var text = getReply(data.text);
     return { text: text};
 };
