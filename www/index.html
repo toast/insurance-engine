@@ -35,8 +35,11 @@
             <div ng-repeat="message in messages" ng-class="{other: message.userId != myId}" class="messages">
                 <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
                     <span>{{ message.text }}</span>
-                    <div ng-show="message.htmlSnippet=='fileUpload'">
+                    <div ng-show="message.userId!=myId && message.type=='upload'">
                         <input class="file-input" type="file" onclick="hack.bindFileUpload()"/>
+                    </div>
+                    <div ng-show="message.userId!=myId && message.type=='photo'">
+                        <img src="http://vignette3.wikia.nocookie.net/dcmovies/images/7/75/Alfred_Pennyworth_TDKR.jpg/revision/latest?cb=20111219235041" />
                     </div>
                 </div>
                 <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">{{message.time}}</div>

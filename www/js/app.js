@@ -110,28 +110,56 @@ angular.module('ionicApp', ['ionic'])
 
     $scope.sendMessage = function() {
 
+        $scope.messages.push({
+            userId: $scope.userID,
+            text: $scope.data.message,
+            type: 'upload',
+            time: $scope.newLocalDate()
+        });
+
         $http({
             url: "/messages",
             method: "POST",
             data: {
                 "text": $scope.data.message,
-                "user": user
+                "userId": user.userID
             }
         }).success(function(data, status, headers, config) {
             $scope.data = data;
-            $window.console.log(data);
+//            {
+//                'text': "Hi I'm alfred",
+//                'type': 'message'
+//            }
+//            {
+//                'text': "Please upload a photo",
+//                'type': 'upload'
+//            }
+//            {
+//                'text': "I created a cover for you it's 10 a week",
+//                'type': 'cover'
+//            }
+//            {
+//                'text': "You're already covered for that!",
+//                'type': 'alreadyCovered'
+//            }
+//            {
+//                'text': "Sorry, I can't quote for that",
+//                'type': 'cannotQuote'
+//            }
+
+
+            $scope.messages.push({
+                userId: $scope.botID,
+                text: data.text,
+                type: data.type,
+                time: $scope.newLocalDate()
+            });
+
         }).error(function(data, status, headers, config) {
             $scope.status = status;
         });
 
         alternate = !alternate;
-
-        $scope.messages.push({
-            userId: alternate ? $scope.userID : $scope.botID,
-            text: $scope.data.message,
-            htmlSnippet: '',
-            time: $scope.newLocalDate()
-        });
 
         delete $scope.data.message;
         $ionicScrollDelegate.scrollBottom(true);
